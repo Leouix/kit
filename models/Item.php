@@ -51,6 +51,17 @@ class Item {
 
     }
 
+    public static function updateItem($id, $title, $description, $newParent) {
+        if( ! self::checkItemInDb($newParent)) {
+            $newParent = null;
+        }
+        $db = DB::getConnection();
+        $sql = "UPDATE `items` SET `title`=?, `description`=?, `parent`=? WHERE `id`=?";
+        $stmt= $db->prepare($sql);
+        $stmt->execute([$title, $description, $newParent, $id]);
+        header('location: /');
+    }
+
     public static function updateChildsItem( $parentId, $childId ) {
 
         $response = array (
@@ -89,6 +100,53 @@ class Item {
         $stmt= $db->prepare($sql);
         $stmt->execute([$childs, $parentId]);
 //        header('location:' . $_SERVER['REQUEST_URI'] );
+    }
+
+    public static function updateParents($old_parent_id, $new_item_parent, $item_id)
+    {
+        self::removeChildId($old_parent_id, $item_id);
+        self::updateChildsItem( $new_item_parent, $item_id );
+    }
+
+    protected static function updateParent($itemId, $parentId) {
+        $db = DB::getConnection();
+        $sql = "UPDATE `items` SET `parent`=? WHERE `id`=?";
+        $stmt= $db->prepare($sql);
+        $stmt->execute([$parentId, $itemId]);
+    }
+
+    public static function updateChilds($itemId)
+    {
+        self::removeHisParentFormOldChilds($itemId);
+        self::removeAllChilds($itemId);
+    }
+
+    public static function deleteRecursive($itemId, $childIds = '') {
+
+        $db = DB::getConnection();
+        $sql = "SELECT * FROM `items` WHERE id = $itemId";
+        $stm = $db->query($sql);
+        $item = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+        Item::removeItem($itemId);
+        if(!empty($item[0]['parent'])) {
+            Item::removeChildId($item[0]['parent'], $itemId);
+        }
+
+        if( !empty($item[0]['childs'])) {
+
+            if(!empty($childIds)) {
+                $childIds .= ',';
+            }
+            $childIds .= $item[0]['childs'];
+
+            $childsArray = explode(',', $item[0]['childs']);
+            foreach($childsArray as $childId) {
+                return self::deleteRecursive($childId, $childIds);
+            }
+        }
+
+        header('location: /');
     }
 
     public static function removeChildId($parentId, $removingChild)
@@ -137,15 +195,11 @@ class Item {
         return $response;
     }
 
-    public static function updateItem($id, $title, $description, $newParent) {
-        if( ! self::checkItemInDb($newParent)) {
-            $newParent = null;
-        }
+    protected static function removeAllChilds($itemId) {
         $db = DB::getConnection();
-        $sql = "UPDATE `items` SET `title`=?, `description`=?, `parent`=? WHERE `id`=?";
+        $sql = "UPDATE `items` SET `childs`=? WHERE `id`=?";
         $stmt= $db->prepare($sql);
-        $stmt->execute([$title, $description, $newParent, $id]);
-        header('location: /');
+        $stmt->execute([null, $itemId]);
     }
 
     public static function removeItem($itemId) {
@@ -162,72 +216,6 @@ class Item {
         }
 
 //        header('location: /');
-    }
-
-    public static function deleteRecursive($itemId, $childIds = '') {
-
-        $db = DB::getConnection();
-        $sql = "SELECT * FROM `items` WHERE id = $itemId";
-        $stm = $db->query($sql);
-        $item = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-        Item::removeItem($itemId);
-        if(!empty($item[0]['parent'])) {
-            Item::removeChildId($item[0]['parent'], $itemId);
-        }
-
-        if( !empty($item[0]['childs'])) {
-
-            if(!empty($childIds)) {
-                $childIds .= ',';
-            }
-            $childIds .= $item[0]['childs'];
-
-            $childsArray = explode(',', $item[0]['childs']);
-            foreach($childsArray as $childId) {
-                return self::deleteRecursive($childId, $childIds);
-            }
-        }
-
-        header('location: /');
-    }
-
-    public static function checkHeirs($itemId, $parentId) {
-        // $item не может иметь дочерних элементов, которые родители его родителя
-        $item = self::getItem($itemId);
-        $itemChilds = $item[0]['childs'];
-        if(empty($itemChilds)) return true;
-
-        $itemChildsArray = explode(',', $itemChilds);
-
-        return self::checkParentsHeirsRecursive($parentId, $itemId, $itemChildsArray);
-
-    }
-
-    protected static function checkParentsHeirsRecursive($parentId, $itemId, $itemChildsArray) {
-        $parentItem = self::getItem($parentId);
-        $parentParent_id = $parentItem[0]['parent'];
-        if(empty($parentParent_id)) return true;
-
-        if(in_array($parentParent_id, $itemChildsArray)) {
-            self::removeChildId($itemId, $parentParent_id);
-            return true;
-        } else {
-            return self::checkParentsHeirsRecursive($parentParent_id, $itemId, $itemChildsArray);
-        }
-
-    }
-
-    public static function updateParents($old_parent_id, $new_item_parent, $item_id)
-    {
-        self::removeChildId($old_parent_id, $item_id);
-        self::updateChildsItem( $new_item_parent, $item_id );
-    }
-
-    public static function updateChilds($itemId)
-    {
-        self::removeHisParentFormOldChilds($itemId);
-        self::removeAllChilds($itemId);
     }
 
     protected static function removeHisParentFormOldChilds($itemId) {
@@ -250,20 +238,6 @@ class Item {
                 self::updateParent($itemId, null);
             }
         }
-    }
-
-    protected static function updateParent($itemId, $parentId) {
-        $db = DB::getConnection();
-        $sql = "UPDATE `items` SET `parent`=? WHERE `id`=?";
-        $stmt= $db->prepare($sql);
-        $stmt->execute([$parentId, $itemId]);
-    }
-
-    protected static function removeAllChilds($itemId) {
-        $db = DB::getConnection();
-        $sql = "UPDATE `items` SET `childs`=? WHERE `id`=?";
-        $stmt= $db->prepare($sql);
-        $stmt->execute([null, $itemId]);
     }
 
 }

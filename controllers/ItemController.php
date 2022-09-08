@@ -9,6 +9,7 @@ class ItemController {
         $items = Item::getItems();
         include ROOT . '/views/index.php';
     }
+
     public function addItem()
     {
 
@@ -68,14 +69,34 @@ class ItemController {
 
     public function deleteItem()
     {
-//        echo "<pre>";
-//        print_r( $_POST );
-//        echo "</pre>";
-
         $itemId = $_GET['id'];
         Item::deleteRecursive($itemId);
+    }
 
-
-
+    public static function printItem( & $items, & $used_items, $itemChilds, $ml=10 ) {
+        $arrayItems = explode(',', $itemChilds);
+        foreach($arrayItems as $item_id) {
+            if(in_array($item_id, $used_items)) {
+                continue;
+            }
+            $item = $items[$item_id];
+            ?>
+            <div class="item" style="margin-left:<?php echo $ml; ?>px" data-parent="<?php echo $item['parent']; ?>" data-childs="<?php echo $item['childs']; ?>" data-id="<?php echo $item['id']; ?>">
+                <div class="item-buttons">
+                    <div class="edit-button"></div>
+                    <a href="/delete-item?id=<?php echo $item['id']; ?>" class="delete-button"></a>
+                </div>
+                <div class="item-id"><?php echo $item['id']; ?></div>
+                <div class="item-title"><?php echo $item['title']; ?></div>
+                <div class="item-description"><?php echo $item['description']; ?></div>
+                <?php
+                array_push($used_items, $item_id);
+                if(!empty($item['childs'])) {
+                    self::printItem($items, $used_items, $item['childs']);
+                }
+                ?>
+            </div>
+            <?php
+        }
     }
 }

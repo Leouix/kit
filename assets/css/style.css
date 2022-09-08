@@ -1,0 +1,111 @@
+body, html {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+.admin-panel {
+    height: 100%;
+    width: 300px;
+    margin-right: auto;
+    background: #74749a;
+}
+.add-root-el {
+    width: 100%;
+    height: 50px;
+    border: 3px solid #ababb3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.add-root-el img {
+    width: 25px;
+}
+
+.popup-add {
+    width: 300px;
+    margin: 0 35px;
+}
+.popup-wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    transition: 0.35s ease-in;
+    padding: 35px 0;
+    box-shadow: -1px 0px 3px 0px #0000003d;
+    background: #e9e9e9;
+}
+
+.popup-wrapper.active {
+    width: 335px;
+    padding-right: 35px;
+}
+
+.form-group label {
+    display: block;
+}
+
+.form-group {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin-panel .item {
+    position: relative;
+    border: 1px solid #9a9999;
+    background: #ccc;
+}
+
+.edit-items-wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    transition: 0.35s ease-in;
+    padding: 35px 0;
+    box-shadow: -1px 0px 3px 0px #0000003d;
+    background: #e9e9e9;
+}
+.edit-items-wrapper.active {
+    width: 335px;
+    padding-right: 35px;
+}
+.edit-items-window {
+    width: 300px;
+    margin: 0 35px;
+}
+
+.admin-panel .item-buttons {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+}
+
+.admin-panel .edit-button {
+    background: url('/images/edit.png');
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+}
+.admin-panel .delete-button {
+    background: url('/images/delete.png');
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+}
