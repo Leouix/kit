@@ -109,3 +109,70 @@ body, html {
     height: 20px;
     margin: 0 5px;
 }
+
+.log-user {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.public-container {
+    display: flex;
+    height: 100%;
+}
+
+#items-panel {
+    height: 100%;
+    width: 350px;
+    background: #ccc;
+    display: inline-block;
+}
+
+.block-description {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-description {
+    min-width: 350px;
+    min-height: 350px;
+    border: 1px solid #ccc;
+    background: #ccc;
+    opacity: 0;
+    transition: 0.35s ease-in-out;
+}
+
+.popup-description.visible {
+    opacity: 1;
+}
+
+#items-panel .item {
+    border: 1px solid #000;
+}
+
+#items-panel .popup-description  {
+    display: none;
+}
+
+#items-panel .item-title {
+    display: inline-block;
+}
+
+#items-panel .item .has-childs-icon {
+    background: url('/images/add.png');
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+
+}
+
+#items-panel .item.has-childs .item {
+    display: none;
+}
+
+#items-panel .item.has-childs.show > div.item {
+    display: block;
+}

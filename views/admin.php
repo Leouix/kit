@@ -20,13 +20,13 @@ include ROOT . '/views/templates/header.php';
             <div class="item-title"><?php echo $item['title']; ?></div>
             <div class="item-description"><?php echo $item['description']; ?></div>
             <?php
-                array_push($used_items, $item['id']);
-                if(!empty($item['childs'])) {
-                    ItemController::printItem($items, $used_items, $item['childs']);
-                }
+            array_push($used_items, $item['id']);
+            if(!empty($item['childs'])) {
+                ItemController::printItem($items, $used_items, $item['childs']);
+            }
             ?>
         </div>
-    <?php
+        <?php
     }
 
     ?>

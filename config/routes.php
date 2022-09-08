@@ -1,7 +1,11 @@
 <?php
 
 return array (
-    '' => 'index',
+    '' => 'publicPanel',
+    'admin' => 'adminPanel',
+    'login' => 'login',
+    'register' => 'register',
+    'logout' => 'logout',
     'add-item' => 'addItem',
     'edit-item' => 'editItem',
     'delete-item' => 'deleteItem',

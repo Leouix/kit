@@ -1,5 +1,8 @@
 <?php
 
+include_once ROOT . '/controllers/ItemController.php';
+include_once ROOT . '/controllers/Auth.php';
+
 class Router {
 
     private $routes;
@@ -14,17 +17,70 @@ class Router {
             $uri = explode('?', $_SERVER['REQUEST_URI']);
             return trim( $uri[0], '/');
         }
+        return false;
     }
 
     public function run() {
         $uri = $this->getUrl();
         foreach( $this->routes as $route => $action ) {
             if ($route == $uri) {
-                include_once ROOT . '/controllers/ItemController.php';
-                $controller = new ItemController();
-                $controller->$action();
+                $this->$action();
                 break;
             }
+        }
+    }
+
+    public function publicPanel() {
+        ItemController::publicPanel();
+    }
+
+    public function login() {
+        if(!empty($_SESSION['username'])) {
+            header('Location: /');
+        } else {
+            Auth::login();
+        }
+    }
+
+    public function logout() {
+        Auth::logout();
+    }
+
+    public function register() {
+        if(!empty($_SESSION['username'])) {
+            header('Location: /');
+        } else {
+            Auth::register();
+        }
+    }
+
+    public function adminPanel() {
+        if(!empty($_SESSION['username'])) {
+//            include ROOT . '/views/admin.php';
+            ItemController::index();
+        } else {
+            Auth::login();
+        }
+    }
+
+    public function addItem() {
+        if(!empty($_SESSION['username'])) {
+            $controller = new ItemController();
+            $controller->addItem();
+        }
+    }
+
+    public function editItem() {
+        if(!empty($_SESSION['username'])) {
+            $controller = new ItemController();
+            $controller->editItem();
+        }
+    }
+
+    public function deleteItem() {
+        if(!empty($_SESSION['username'])) {
+            $controller = new ItemController();
+            $controller->deleteItem();
         }
     }
 

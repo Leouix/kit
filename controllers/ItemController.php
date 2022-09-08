@@ -4,10 +4,16 @@ require_once ROOT . '/models/Item.php';
 
 class ItemController {
 
-    public function index()
+    public static function index()
     {
         $items = Item::getItems();
-        include ROOT . '/views/index.php';
+        include ROOT . '/views/admin.php';
+    }
+
+    public static function publicPanel()
+    {
+        $items = Item::getItems();
+        include ROOT . '/views/public.php';
     }
 
     public function addItem()
@@ -93,6 +99,31 @@ class ItemController {
                 array_push($used_items, $item_id);
                 if(!empty($item['childs'])) {
                     self::printItem($items, $used_items, $item['childs']);
+                }
+                ?>
+            </div>
+            <?php
+        }
+    }
+
+    public static function printItemPublic( & $items, & $used_items, $itemChilds, $ml=10 ) {
+        $arrayItems = explode(',', $itemChilds);
+        foreach($arrayItems as $item_id) {
+            if(in_array($item_id, $used_items)) {
+                continue;
+            }
+            $item = $items[$item_id];
+            $hasChilds = !empty($item['childs']) ? 'has-childs' : '';
+            ?>
+            <div class="item <?php echo $hasChilds; ?>" style="margin-left:<?php echo $ml; ?>px;" >
+                <div class="item-title" data-description="<?php echo $item['description']; ?>"><?php echo $item['title']; ?> </div>
+                <?php if($hasChilds) { ?>
+                    <span class="has-childs-icon"></span>
+                <?php } ?>
+                <?php
+                array_push($used_items, $item_id);
+                if(!empty($item['childs'])) {
+                    self::printItemPublic($items, $used_items, $item['childs']);
                 }
                 ?>
             </div>

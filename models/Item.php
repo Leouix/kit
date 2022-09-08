@@ -28,7 +28,7 @@ class Item {
             $newItem = $db->lastInsertId();
             self::updateChildsItem($parent, $newItem );
         }
-        header('location: /');
+        header('location: /admin');
     }
 
     public static function getItem($itemId) {
@@ -59,7 +59,7 @@ class Item {
         $sql = "UPDATE `items` SET `title`=?, `description`=?, `parent`=? WHERE `id`=?";
         $stmt= $db->prepare($sql);
         $stmt->execute([$title, $description, $newParent, $id]);
-        header('location: /');
+        header('location: /admin');
     }
 
     public static function updateChildsItem( $parentId, $childId ) {
@@ -146,7 +146,7 @@ class Item {
             }
         }
 
-        header('location: /');
+        header('location: /admin');
     }
 
     public static function removeChildId($parentId, $removingChild)
