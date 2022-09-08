@@ -56,7 +56,6 @@ class Router {
 
     public function adminPanel() {
         if(!empty($_SESSION['username'])) {
-//            include ROOT . '/views/admin.php';
             ItemController::index();
         } else {
             Auth::login();
