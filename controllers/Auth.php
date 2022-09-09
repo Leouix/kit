@@ -13,8 +13,11 @@ class Auth {
 
             if(self::verifyCredits($email, $password)) {
                 $_SESSION['username'] = $email;
-                $url = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
-                header('Location: ' . $url);
+                header('Location: /admin' );
+                exit;
+            } else {
+                $_SESSION['message'] = 'Вы ввели неверные учетные данные';
+                header('Location: /login');
                 exit;
             }
         }
@@ -49,11 +52,6 @@ class Auth {
 
         if(isset($_POST['form_submit']) && $credits = self::validateFormReg() ) {
 
-            echo __CLASS__ . ': ' . __FUNCTION__ . ': ' . '$credits';
-            echo "<pre>";
-            print_r( $credits );
-            echo "</pre>";
-
             $pass1 = $credits['pass1'];
             $email = $credits['email'];
 
@@ -64,7 +62,7 @@ class Auth {
     }
 
     protected static function validateFormReg() {
-        // filter_var($email, FILTER_VALIDATE_EMAIL) === false
+
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 
         if( !$email ) {
@@ -77,7 +75,7 @@ class Auth {
         $pass2 = filter_input(INPUT_POST, 'pass2');
 
         if(empty($pass1)) {
-            $_SESSION['message'] = 'Укажите пароль пароль';
+            $_SESSION['message'] = 'Укажите пароль';
             header('Location: /register');
             exit();
         }

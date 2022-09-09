@@ -8,6 +8,7 @@ body, html {
     width: 300px;
     margin-right: auto;
     background: #74749a;
+    overflow: auto;
 }
 .add-root-el {
     width: 100%;
@@ -50,6 +51,7 @@ body, html {
 .form-group {
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 5px;
 }
 
 .form-group input {
@@ -66,6 +68,7 @@ body, html {
     position: relative;
     border: 1px solid #9a9999;
     background: #ccc;
+    min-height: 55px;
 }
 
 .edit-items-wrapper {
@@ -95,12 +98,18 @@ body, html {
     display: flex;
 }
 
+.admin-panel .item-id {
+    margin-right: 5px;
+    color: #4a4a4a8f;
+}
+
 .admin-panel .edit-button {
     background: url('/images/edit.png');
     background-size: cover;
     width: 20px;
     height: 20px;
     margin: 0 5px;
+    cursor: pointer;
 }
 .admin-panel .delete-button {
     background: url('/images/delete.png');
@@ -126,6 +135,7 @@ body, html {
     width: 350px;
     background: #ccc;
     display: inline-block;
+    overflow: auto;
 }
 
 .block-description {
@@ -142,6 +152,10 @@ body, html {
     background: #ccc;
     opacity: 0;
     transition: 0.35s ease-in-out;
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    position: relative;
 }
 
 .popup-description.visible {
@@ -161,11 +175,12 @@ body, html {
 }
 
 #items-panel .item .has-childs-icon {
-    background: url('/images/add.png');
+    background: url('/images/plus.png');
     background-size: cover;
-    width: 15px;
-    height: 15px;
+    width: 10px;
+    height: 10px;
     display: inline-block;
+    cursor: pointer;
 
 }
 
@@ -175,4 +190,57 @@ body, html {
 
 #items-panel .item.has-childs.show > div.item {
     display: block;
+}
+
+#form-login label,
+#form-reg label {
+    display: block;
+}
+
+#form-login .row,
+#form-reg .row {
+    margin-top: 5px;
+}
+
+.container {
+    padding: 0 25px;
+}
+
+.popup-wrapper-close {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: url('/images/close.png');
+    background-size: cover;
+    display: block;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.edit-items-close {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: url('/images/close.png');
+    background-size: cover;
+    display: block;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.popup-description-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: url('/images/close.png');
+    background-size: cover;
+    display: block;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    cursor: pointer;
 }

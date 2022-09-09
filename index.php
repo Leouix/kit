@@ -10,26 +10,11 @@ define("ROOT", __DIR__);
 
 require_once ROOT . '/components/Router.php';
 
-//if(!empty($_SESSION['message'])) {
-//    echo "<pre>";
-//    print_r( $_SESSION['message'] );
-//    echo "</pre>";
-//
-//    unset($_SESSION['message']);
-//}
-
-//if( isset($_SESSION['username']) && !empty($_SESSION['username'])) {
-//    echo 'user logged in';
-//}
+if(!empty($_SESSION['message'])) {
+    print($_SESSION['message']);
+    unset($_SESSION['message']);
+}
 
 
 $router = new Router();
 $router->run();
-
-
-
-// Авторизация
-// Страница админа
-// Страница юзера
-
-

@@ -13,10 +13,11 @@ include ROOT . '/views/templates/header.php';
         ?>
         <div class="item" data-parent="<?php echo $item['parent']; ?>" data-childs="<?php echo $item['childs']; ?>" data-id="<?php echo $item['id']; ?>">
             <div class="item-buttons">
+                <div class="item-id">#<?php echo $item['id']; ?></div>
                 <div class="edit-button"></div>
                 <a href="/delete-item?id=<?php echo $item['id']; ?>" class="delete-button"></a>
             </div>
-            <div class="item-id"><?php echo $item['id']; ?></div>
+
             <div class="item-title"><?php echo $item['title']; ?></div>
             <div class="item-description"><?php echo $item['description']; ?></div>
             <?php
@@ -37,8 +38,9 @@ include ROOT . '/views/templates/header.php';
 </div>
 
 <div class="popup-wrapper">
+    <div class="popup-wrapper-close"></div>
     <div class="popup-add">
-        <h3>Добавить элемент структуры</h3>
+        <h3>Добавить элемент</h3>
         <form id="form-add-item" action="/add-item" method="post">
             <div class="form-group">
                 <label for="add-item__title">Заголовок</label>
@@ -50,7 +52,7 @@ include ROOT . '/views/templates/header.php';
             </div>
             <div class="form-group">
                 <label for="add-item__parent">Родительский элемент</label>
-                <input id="add-item__parent" type="number" name="item_parent">
+                <input id="add-item__parent" type="number" name="item_parent" placeholder="id элемента">
             </div>
             <input type="submit" value="Сохранить">
         </form>
@@ -58,8 +60,9 @@ include ROOT . '/views/templates/header.php';
 </div>
 
 <div class="edit-items-wrapper">
+    <div class="edit-items-close"></div>
     <div class="edit-items-window">
-        <h3>Редактировать элемент структуры</h3>
+        <h3>Редактировать элемент</h3>
         <form id="edit-form" action="/edit-item" method="post">
             <div class="id-item">ID элемента: <span></span></div>
             <div class="form-group">
@@ -72,7 +75,7 @@ include ROOT . '/views/templates/header.php';
             </div>
             <div class="form-group">
                 <label for="edit-item_parent">Родительский элемент</label>
-                <input id="edit-item_parent" type="number" name="item_parent">
+                <input id="edit-item_parent" type="number" name="item_parent" placeholder="id элемента">
             </div>
             <input id="edit-item_id" type="hidden" name="item_id" value="">
             <input id="edit-old_parent_id" type="hidden" name="old_parent_id" value="">
@@ -81,7 +84,7 @@ include ROOT . '/views/templates/header.php';
     </div>
 </div>
 
-<script src="/assets/js/script.js"></script>
+<script src="/assets/js/admin.js"></script>
 
 <?php
 include ROOT . '/views/templates/footer.php';

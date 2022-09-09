@@ -27,6 +27,7 @@ window.addEventListener('DOMContentLoaded', function() {
             editFormId.value = itemId;
             idEl.textContent = itemId;
 
+            popupAddForm.classList.remove('active');
             editWrapper.classList.add('active');
             editFormTitle.focus();
         })
@@ -37,6 +38,7 @@ window.addEventListener('DOMContentLoaded', function() {
     const adminPanel = document.querySelector(".admin-panel");
     const addFormTitle = document.querySelector("#add-item__title");
     addRootButton.addEventListener('click', function() {
+        editWrapper.classList.remove('active');
         popupAddForm.classList.add('active');
         addFormTitle.focus();
     })
@@ -57,6 +59,16 @@ window.addEventListener('DOMContentLoaded', function() {
         if ( ! withinBoundaries && !withinadminPanel) {
             editWrapper.classList.remove('active');
         }
+    })
+
+    const closeAddPanelIcon = document.querySelector(".popup-wrapper-close");
+    closeAddPanelIcon.addEventListener('click', function () {
+        popupAddForm.classList.remove('active');
+    })
+
+    const closeEditPanelIcon = document.querySelector(".edit-items-close");
+    closeEditPanelIcon.addEventListener('click', function () {
+        editWrapper.classList.remove('active');
     })
 
 })

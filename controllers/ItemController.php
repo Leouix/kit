@@ -89,10 +89,11 @@ class ItemController {
             ?>
             <div class="item" style="margin-left:<?php echo $ml; ?>px" data-parent="<?php echo $item['parent']; ?>" data-childs="<?php echo $item['childs']; ?>" data-id="<?php echo $item['id']; ?>">
                 <div class="item-buttons">
+                    <div class="item-id">#<?php echo $item['id']; ?></div>
                     <div class="edit-button"></div>
                     <a href="/delete-item?id=<?php echo $item['id']; ?>" class="delete-button"></a>
                 </div>
-                <div class="item-id"><?php echo $item['id']; ?></div>
+
                 <div class="item-title"><?php echo $item['title']; ?></div>
                 <div class="item-description"><?php echo $item['description']; ?></div>
                 <?php
